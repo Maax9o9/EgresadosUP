@@ -1,0 +1,47 @@
+components (reusable UI)
+Qué va:
+
+Componentes UI reutilizables y atómicos o compuestos usados por varias páginas/features (ej.: Header, Button, ProfileBanner, Modal, Icon).
+Cada componente en su propia carpeta con: Component.tsx, Component.module.css (o .scss), types.ts (props), index.ts (re-export), Component.test.tsx, README.md (uso).
+
+data/models (tipos y DTOs)
+Qué va:
+
+Tipos TypeScript e interfaces que representan entidades del dominio y DTOs usados en el transporte (API requests/responses).
+Ejemplos: User.ts (entidad interna), UserDTO.ts (forma de la API), index.ts para exportar.
+
+
+data/repository (implementación de persistencia)
+Qué va:
+
+Clases o funciones que encapsulan llamadas a APIs, almacenamiento local, o adaptadores a fuentes de datos externas.
+Interfaz pública (contract) en un archivo y la implementación en otro (por ejemplo UserRepository.ts y UserRepositoryImpl.ts).
+Manejo de errores de red transformados en errores de dominio.
+
+
+domain (casos de uso / lógica de negocio)
+Qué va:
+
+Casos de uso (Use Cases / Interactors) que implementan la lógica de negocio: validaciones, orquestación entre repositorios, reglas de dominio.
+Ejemplo: GetAllUsersUseCase.ts, CreateUserUseCase.ts.
+
+
+presentation (UI — páginas / viewmodels)
+Qué va:
+
+Componentes de presentación (state + lógica de UI).
+colocas un único index.tsx o Feature.tsx que combina la UI y la lógica local.
+Si se usa separación: viewmodels para state y transformaciones, pages para layout.
+
+core (cross-cutting)
+Qué va:
+
+Funcionalidades y utilidades transversales: logger, fetch client configurado (axios instance), providers (AuthProvider, ThemeProvider), assets globales, wrappers de navegación.
+core/navigation para rutas y estructura global.
+
+
+forms / notices / registers (features compuestas)
+Qué va:
+
+Son features compuestas que cada sub-feature repite la subdivisión (data/models, data/repository, domain, presentation, components).
+Mantén la convención de carpetas idéntica para que quien llegue sepa dónde buscar.
