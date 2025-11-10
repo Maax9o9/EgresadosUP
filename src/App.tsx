@@ -1,33 +1,9 @@
-import { useEffect } from 'react'
-import { useAuth } from './contexts/AuthContext'
-import Layout from './shared/components/layout/Layout'
-import HomePage from './features/home/HomePage'
-import RespondentsPage from './features/surveys/presentation/page/respondents-page/RespondentsPage'
-import CatalogPage from './features/surveys/presentation/page/catalog-page/CatalogPage'
-import { Routes, Route } from 'react-router-dom'
+// Este archivo ya no se usa. 
+// El enrutamiento se maneja en src/core/router/indes.tsx
+// y se integra en src/main.tsx con RouterProvider
 
 function App() {
-  const { login } = useAuth()
-
-  // Simular un login automático para poder ver el Layout
-  useEffect(() => {
-    login({
-      name: 'Usuario Demo',
-      email: 'demo@exaup.com',
-      id: '1'
-    })
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []) // Solo ejecutar una vez al montar el componente
-
-  return (
-    <Layout>
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-  <Route path="/respondents" element={<RespondentsPage />} />
-  <Route path="/survey-catalog" element={<CatalogPage />} />
-      </Routes>
-    </Layout>
-  )
+  return null
 }
 
 export default App
