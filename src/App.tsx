@@ -2,8 +2,8 @@ import { useEffect } from 'react'
 import { useAuth } from './contexts/AuthContext'
 import Layout from './shared/components/layout/Layout'
 import HomePage from './features/home/HomePage'
-import RespondentsPage from './features/form/presentation/page/respondents-page/RespondentsPage'
-import CatalogPage from './features/form/presentation/page/catalog-page/CatalogPage'
+import RespondentsPage from './features/surveys/presentation/page/respondents-page/RespondentsPage'
+import CatalogPage from './features/surveys/presentation/page/catalog-page/CatalogPage'
 import { Routes, Route } from 'react-router-dom'
 
 function App() {
