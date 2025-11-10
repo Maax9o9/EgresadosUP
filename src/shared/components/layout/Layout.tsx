@@ -8,7 +8,6 @@ import {
 import { Disclosure } from "@headlessui/react";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import "@/shared/styles/toast.css";
 
 import {
   Bars3Icon,
@@ -26,7 +25,7 @@ import {
 import { Link, useLocation, useNavigate, Outlet } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import ConfirmDialog from "@/shared/components/ui/confirmAlert";
-import { ROUTES } from "@/shared/constants/route";
+import { ROUTES } from '@/shared/constants/route';
 
 // ----------------------------------
 // 1) Tipos para la navegación
@@ -48,7 +47,7 @@ interface NavItem {
 // ----------------------------------
 const navigation: NavItem[] = [
   {
-    name: "Dashboard",
+    name: "Inicio",
     icon: HomeIcon,
     href: ROUTES.DASHBOARD,
   },
@@ -57,6 +56,9 @@ const navigation: NavItem[] = [
     icon: ClipboardDocumentCheckIcon,
     children: [
       { name: "Crear encuesta", href: ROUTES.SURVEYS_CREATE },
+      { name: "Enviar encuesta", href: ROUTES.SURVEY_SENDTO },
+      { name: "Catálogo", href: ROUTES.SURVEY_CATALOG },
+      { name: "Encuestados", href: ROUTES.SURVEY_RESPONDENTS },
     ],
   },
   {
@@ -350,8 +352,7 @@ export default function Layout() {
             pauseOnHover
             theme="light"
           />
-          {/* Contenido de las páginas (react-router Outlet) */}
-          <Outlet />
+          <div className="px-4 sm:px-6 lg:px-8"><Outlet /></div>
         </main>
       </div>
 
