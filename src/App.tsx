@@ -2,6 +2,9 @@ import { useEffect } from 'react'
 import { useAuth } from './contexts/AuthContext'
 import Layout from './shared/components/layout/Layout'
 import HomePage from './features/home/HomePage'
+import RespondentsPage from './features/form/presentation/page/respondents-page/RespondentsPage'
+import CatalogPage from './features/form/presentation/page/catalog-page/CatalogPage'
+import { Routes, Route } from 'react-router-dom'
 
 function App() {
   const { login } = useAuth()
@@ -18,7 +21,11 @@ function App() {
 
   return (
     <Layout>
-      <HomePage />
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+  <Route path="/respondents" element={<RespondentsPage />} />
+  <Route path="/survey-catalog" element={<CatalogPage />} />
+      </Routes>
     </Layout>
   )
 }
