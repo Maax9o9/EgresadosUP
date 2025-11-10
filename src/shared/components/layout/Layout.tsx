@@ -8,6 +8,7 @@ import {
 import { Disclosure } from "@headlessui/react";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import "@/shared/styles/toast.css";
 
 import {
   Bars3Icon,
@@ -22,9 +23,10 @@ import {
   ChevronDownIcon,
 } from "@heroicons/react/24/outline";
 
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate, Outlet } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import ConfirmDialog from "@/shared/components/ui/confirmAlert";
+import { ROUTES } from "@/shared/constants/route";
 
 // ----------------------------------
 // 1) Tipos para la navegación
@@ -46,18 +48,15 @@ interface NavItem {
 // ----------------------------------
 const navigation: NavItem[] = [
   {
-    name: "Inicio",
+    name: "Dashboard",
     icon: HomeIcon,
-    href: "/",
+    href: ROUTES.DASHBOARD,
   },
   {
     name: "Encuestas",
     icon: ClipboardDocumentCheckIcon,
     children: [
-      { name: "Crear encuesta", href: "/create-survey" },
-      { name: "Catálogo", href: "/survey-catalog" },
-      { name: "Enviar encuesta", href: "/send-survey" },
-      { name: "Encuestados", href: "/respondents" },
+      { name: "Crear encuesta", href: ROUTES.SURVEYS_CREATE },
     ],
   },
   {
@@ -95,16 +94,9 @@ function classNames(...classes: string[]): string {
 }
 
 // ----------------------------------
-// 4) Interfaz de props del Layout
+// 4) Componente principal Layout
 // ----------------------------------
-interface SidebarLayoutProps {
-  children: React.ReactNode;
-}
-
-// ----------------------------------
-// 5) Componente principal Layout
-// ----------------------------------
-export default function Layout({ children }: SidebarLayoutProps) {
+export default function Layout() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [showLogoutDialog, setShowLogoutDialog] = useState(false);
   const location = useLocation();
@@ -358,7 +350,8 @@ export default function Layout({ children }: SidebarLayoutProps) {
             pauseOnHover
             theme="light"
           />
-          <div className="px-4 sm:px-6 lg:px-8">{children}</div>
+          {/* Contenido de las páginas (react-router Outlet) */}
+          <Outlet />
         </main>
       </div>
 

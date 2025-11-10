@@ -1,0 +1,100 @@
+/* ============================================ */
+/* CUSTOM TOAST STYLES - Look and Feel        */
+/* ============================================ */
+
+/* Estilos base para todos los toasts */
+.Toastify__toast {
+  border-radius: 0.75rem !important;
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1) !important;
+  font-family: ui-sans-serif, system-ui, sans-serif !important;
+  padding: 1rem 1.25rem !important;
+  min-height: auto !important;
+}
+
+/* Barra de progreso */
+.Toastify__progress-bar {
+  height: 3px !important;
+  border-radius: 0 0 0.75rem 0.75rem !important;
+}
+
+/* Toast de éxito */
+.Toastify__toast--success {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
+  color: white !important;
+}
+
+.Toastify__toast--success .Toastify__progress-bar {
+  background: rgba(255, 255, 255, 0.7) !important;
+}
+
+/* Toast de error */
+.Toastify__toast--error {
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%) !important;
+  color: white !important;
+}
+
+.Toastify__toast--error .Toastify__progress-bar {
+  background: rgba(255, 255, 255, 0.7) !important;
+}
+
+/* Toast de advertencia */
+.Toastify__toast--warning {
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%) !important;
+  color: white !important;
+}
+
+.Toastify__toast--warning .Toastify__progress-bar {
+  background: rgba(255, 255, 255, 0.7) !important;
+}
+
+/* Toast de información - usando tu color de marca #8DD2FF */
+.Toastify__toast--info {
+  background: linear-gradient(135deg, #8DD2FF 0%, #7BC1EE 100%) !important;
+  color: white !important;
+}
+
+.Toastify__toast--info .Toastify__progress-bar {
+  background: rgba(255, 255, 255, 0.7) !important;
+}
+
+/* Botón de cerrar */
+.Toastify__close-button {
+  color: white !important;
+  opacity: 0.8 !important;
+}
+
+.Toastify__close-button:hover {
+  opacity: 1 !important;
+}
+
+/* Animaciones suaves */
+.Toastify__toast {
+  transition: all 0.3s ease-in-out !important;
+}
+
+/* Estilos responsivos */
+@media only screen and (max-width: 480px) {
+  .Toastify__toast-container {
+    width: 100vw !important;
+    padding: 0 !important;
+    left: 0 !important;
+    margin: 0 !important;
+    border-radius: 0 !important;
+  }
+
+  .Toastify__toast {
+    margin-bottom: 0 !important;
+    border-radius: 0 !important;
+  }
+
+  .Toastify__toast:last-child {
+    border-radius: 0 !important;
+  }
+}
+
+/* Tema oscuro (opcional para futuro) */
+@media (prefers-color-scheme: dark) {
+  .Toastify__toast {
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.3), 0 4px 6px -4px rgb(0 0 0 / 0.2) !important;
+  }
+}

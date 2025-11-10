@@ -1,38 +1,40 @@
-/*export const ROUTES = {
+export const ROUTES = {
   // Auth
   LOGIN: "/login",
   HOME: "/",
+  DASHBOARD: "/dashboard",
 
-  // Products
-  PRODUCTS: "/products",
+  // Surveys (incluye formularios integrados)
+  SURVEYS_CREATE: "/surveys/create",
+  SURVEY_EDITOR: "/surveys/editor",
+
+  // Products (legacy - comentado)
+  // PRODUCTS: "/products",
 
   // Stores
-  STORES_TABLE: "/storeTable",
-  STORES_LIST: "/storeList",
-  STORES_CREATE: "/createStore",
-  STORES_EDIT: (id: string) => `/stores/edit/${id}`,
+  // STORES_TABLE: "/storeTable",
+  // STORES_LIST: "/storeList",
+  // STORES_CREATE: "/createStore",
+  // STORES_EDIT: (id: string) => `/stores/edit/${id}`,
 
   // Users
-  USERS: "/users",
-  USERS_CREATE: "/create-user",
-  USERS_EDIT: (id: string) => `/users/edit/${id}`,
+  // USERS: "/users",
+  // USERS_CREATE: "/create-user",
+  // USERS_EDIT: (id: string) => `/users/edit/${id}`,
 
   // Employees
-  EMPLOYEES: "/employees",
-  EMPLOYEES_CREATE: "/create-employee",
-  EMPLOYEES_EDIT: (id: string) => `/employees/edit/${id}`, 
-  EMPLOYEES_UPLOAD: "/upload-employees",
+  // EMPLOYEES: "/employees",
+  // EMPLOYEES_CREATE: "/create-employee",
+  // EMPLOYEES_EDIT: (id: string) => `/employees/edit/${id}`, 
+  // EMPLOYEES_UPLOAD: "/upload-employees",
 
   // Customers
-  CUSTOMERS: "/customers",
-  CUSTOMERS_ACTIVITY: "/customers-activity",
+  // CUSTOMERS: "/customers",
+  // CUSTOMERS_ACTIVITY: "/customers-activity",
 
   // Sales
-  SALES: "/sales",
+  // SALES: "/sales",
 
   // Inventory
-  INVENTORY: "/inventory",
+  // INVENTORY: "/inventory",
 } as const;
-
-
-*/

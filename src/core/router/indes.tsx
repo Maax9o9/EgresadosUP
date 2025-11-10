@@ -1,30 +1,43 @@
-/*import { createBrowserRouter } from "react-router-dom";
-import ProtectedRoute from "@/shared/components/layout/ProtectedRoute";
-import App from "@/App";
-import { ROUTES } from "@/shared/constants/routes";
+import { createBrowserRouter } from "react-router-dom";
+import { ROUTES } from "@/shared/constants/route";
+import Layout from "@/shared/components/layout/Layout";
 
 // ============================================
-// IMPORTS
+// PAGES
 // ============================================
 
-// Auth
-import Login from "@/pages/Login";
+// Home
+import HomePage from "@/features/home/HomePage";
 
-// Products
-
+// Surveys
+import { CreateSurveyPage } from "@/features/surveys/presentation/pages/CreateSurveyPage";
+import { SurveyEditorPage } from "@/features/surveys/presentation/pages/SurveyEditorPage";
 
 // ============================================
 // ROUTER CONFIGURATION
 // ============================================
 
 export const router = createBrowserRouter([
-  // ==================== PUBLIC ROUTES ====================
   {
-    path: ROUTES.LOGIN,
-    element: <Login />,
+    path: "/",
+    element: <Layout />,
+    children: [
+      {
+        index: true,
+        element: <HomePage />,
+      },
+      {
+        path: ROUTES.DASHBOARD,
+        element: <HomePage />,
+      },
+      {
+        path: ROUTES.SURVEYS_CREATE,
+        element: <CreateSurveyPage />,
+      },
+      {
+        path: ROUTES.SURVEY_EDITOR,
+        element: <SurveyEditorPage />,
+      },
+    ],
   },
-
- 
 ]);
-
-*/
