@@ -12,8 +12,9 @@ import HomePage from "@/features/home/HomePage";
 // Surveys
 import { CreateSurveyPage } from "@/features/surveys/presentation/pages/CreateSurveyPage";
 import { SurveyEditorPage } from "@/features/surveys/presentation/pages/SurveyEditorPage";
-import CatalogPage from "@/features/surveys/presentation/page/catalog-page/CatalogPage";
-import RespondentsPage from "@/features/surveys/presentation/page/respondents-page/RespondentsPage";
+import CatalogPage from "@/features/surveys/presentation/pages/catalog-page/CatalogPage";
+import RespondentsPage from "@/features/surveys/presentation/pages/respondents-page/RespondentsPage";
+import MetricPage from "@/features/surveys/presentation/pages/metric-page/MetricPage";
 
 // ============================================
 // ROUTER CONFIGURATION
@@ -47,6 +48,10 @@ export const router = createBrowserRouter([
       {
         path: ROUTES.SURVEY_RESPONDENTS,
         element: <RespondentsPage />,
+      },
+      {
+        path: ROUTES.SURVEY_METRICS,
+        element: <MetricPage />,
       },
     ],
   },
