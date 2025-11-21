@@ -7,8 +7,8 @@ import { useLocation } from 'react-router-dom';
 import { EyeIcon } from '@heroicons/react/24/outline';
 import { useSurveyEditor } from '../hooks/useSurveyEditor';
 import { SurveyHeaderCard } from '../components/SurveyHeaderCard';
-import { QuestionCard } from '../components/QuestionCard';
-import { AddQuestionButton } from '../components/AddQuestionButton';
+import { QuestionCard } from '../components/edit-survey/QuestionCard';
+import { AddQuestionButton } from '../components/edit-survey/AddQuestionButton';
 import { SurveyPreviewModal } from '../components/SurveyPreviewModal';
 
 export const SurveyEditorPage = () => {
