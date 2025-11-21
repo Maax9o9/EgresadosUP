@@ -15,6 +15,7 @@ import { SurveyEditorPage } from "@/features/surveys/presentation/pages/SurveyEd
 import CatalogPage from "@/features/surveys/presentation/pages/catalog-page/CatalogPage";
 import RespondentsPage from "@/features/surveys/presentation/pages/respondents-page/RespondentsPage";
 import MetricPage from "@/features/surveys/presentation/pages/metric-page/MetricPage";
+import { SendSurveyPage } from "@/features/surveys/presentation/pages/SendSurveyPage";
 
 // ============================================
 // ROUTER CONFIGURATION
@@ -48,6 +49,10 @@ export const router = createBrowserRouter([
       {
         path: ROUTES.SURVEY_RESPONDENTS,
         element: <RespondentsPage />,
+      },
+      {
+        path: ROUTES.SURVEY_SEND,
+        element: <SendSurveyPage />,
       },
       {
         path: ROUTES.SURVEY_METRICS,

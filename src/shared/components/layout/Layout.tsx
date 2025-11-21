@@ -56,7 +56,6 @@ const navigation: NavItem[] = [
     icon: ClipboardDocumentCheckIcon,
     children: [
       { name: "Crear encuesta", href: ROUTES.SURVEYS_CREATE },
-      { name: "Enviar encuesta", href: ROUTES.SURVEY_SENDTO },
       { name: "Catálogo", href: ROUTES.SURVEY_CATALOG },
       { name: "Encuestados", href: ROUTES.SURVEY_RESPONDENTS },
     ],
