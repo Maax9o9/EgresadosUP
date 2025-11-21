@@ -75,6 +75,7 @@ const navigation: NavItem[] = [
     children: [
       { name: "Status", href: "/registry-status" },
       { name: "Generar reporte", href: "/generate-report" },
+      { name: "Métricas", href: ROUTES.SURVEY_METRICS },
     ],
   },
   {
