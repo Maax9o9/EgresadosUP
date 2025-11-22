@@ -17,6 +17,9 @@ import RespondentsPage from "@/features/surveys/presentation/pages/respondents-p
 import MetricPage from "@/features/surveys/presentation/pages/metric-page/MetricPage";
 import { SendSurveyPage } from "@/features/surveys/presentation/pages/SendSurveyPage";
 
+// Mail
+import { CreateEmailTemplatePage } from "@/features/mail/presentation/pages/CreateEmailTemplatePage";
+
 // ============================================
 // ROUTER CONFIGURATION
 // ============================================
@@ -57,6 +60,10 @@ export const router = createBrowserRouter([
       {
         path: ROUTES.SURVEY_METRICS,
         element: <MetricPage />,
+      },
+      {
+        path: ROUTES.CREATE_MAIL_TEMPLATE,
+        element: <CreateEmailTemplatePage />,
       },
     ],
   },

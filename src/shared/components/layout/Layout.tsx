@@ -64,7 +64,7 @@ const navigation: NavItem[] = [
     name: "Avisos",
     icon: BellAlertIcon,
     children: [
-      { name: "Crear plantilla", href: "/create-template" },
+      { name: "Crear plantilla", href: ROUTES.CREATE_MAIL_TEMPLATE },
       { name: "Enviar aviso", href: "/send-notice" },
       { name: "Catálogo", href: "/notice-catalog" },
     ],
