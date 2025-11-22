@@ -22,7 +22,6 @@ const MetricQuestion = () => {
 
   // Chart sizing and spacing
   const CHART_SIZE = 340; // px (a bit larger)
-  const CHART_MARGIN_RIGHT = 150; // px (kept for backward compatibility; not used in responsive layout)
 
   // Prebuild bar option so we pass an object to ReactECharts (not a function)
   const barOption = {
