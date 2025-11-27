@@ -10,12 +10,12 @@ import Layout from "@/shared/components/layout/Layout";
 import HomePage from "@/features/home/HomePage";
 
 // Surveys
-import { CreateSurveyPage } from "@/features/surveys/presentation/pages/CreateSurveyPage";
-import { SurveyEditorPage } from "@/features/surveys/presentation/pages/SurveyEditorPage";
-import CatalogPage from "@/features/surveys/presentation/pages/catalog-page/CatalogPage";
-import RespondentsPage from "@/features/surveys/presentation/pages/respondents-page/RespondentsPage";
-import MetricPage from "@/features/surveys/presentation/pages/metric-page/MetricPage";
-import { SendSurveyPage } from "@/features/surveys/presentation/pages/SendSurveyPage";
+import { CreateFormPage } from "@/features/form/presentation/pages/CreateFormPage";
+import { FormEditorPage } from "@/features/form/presentation/pages/FormEditorPage";
+import CatalogPage from "@/features/form/presentation/pages/catalog-page/CatalogPage";
+import RespondentsPage from "@/features/form/presentation/pages/respondents-page/RespondentsPage";
+import MetricPage from "@/features/form/presentation/pages/metric-page/MetricPage";
+import { SendSurveyPage } from "@/features/form/presentation/pages/SendSurveyPage";
 
 // Mail
 import { CreateEmailTemplatePage } from "@/features/mail/presentation/pages/CreateEmailTemplatePage";
@@ -39,11 +39,11 @@ export const router = createBrowserRouter([
       },
       {
         path: ROUTES.SURVEYS_CREATE,
-        element: <CreateSurveyPage />,
+        element: <CreateFormPage />,
       },
       {
         path: ROUTES.SURVEY_EDITOR,
-        element: <SurveyEditorPage />,
+        element: <FormEditorPage />,
       },
       {
         path: ROUTES.SURVEY_CATALOG,
