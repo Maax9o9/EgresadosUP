@@ -9,4 +9,5 @@ export interface IFormRepository {
   addQuestionToForm(formId: string, questionId: string, orden: number): Promise<void>;
   removeQuestionFromForm(formId: string, questionId: string): Promise<void>;
   getQuestionFormCount(questionId: string): Promise<number>;
+  getFormQuestions(id: string): Promise<import('../../../question/domain/entities/Question').Question[]>;
 }

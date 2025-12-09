@@ -6,8 +6,9 @@ export const FORM_ENDPOINTS = {
   updateForm: (id: string) => `/formulario/${id}`,
   deleteForm: (id: string) => `/formulario/${id}`,
   addQuestion: (formId: string) => `/formulario/${formId}/preguntas`,
-  removeQuestion: (formId: string, questionId: string) => 
+  removeQuestion: (formId: string, questionId: string) =>
     `/formulario/${formId}/preguntas/${questionId}`,
-  getQuestionCount: (questionId: string) => 
+  getQuestionCount: (questionId: string) =>
     `/formulario/pregunta/${questionId}/count`,
+  getFormQuestions: (id: string) => `/formulario/${id}/preguntas`,
 } as const;

@@ -1,28 +1,55 @@
+import { useEffect, useState } from 'react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
-import { useQuestionById } from '@/features/question/presentation/hooks/useQuestionById';
+import { Question } from '@/features/question/domain/entities/Question';
+import { QuestionOption } from '@/features/question/domain/entities/QuestionOption';
+import { useFormQuestions } from '../hooks/useFormQuestions';
+import type { Pregunta } from '@/shared/types';
 
 interface FormPreviewModalProps {
   isOpen: boolean;
   onClose: () => void;
   title: string;
   description: string;
-  questionIds: string[];
+  formId?: string;
+  preloadedQuestions?: Pregunta[];
 }
 
-export const FormPreviewModal = ({ 
-  isOpen, 
-  onClose, 
-  title, 
-  description, 
-  questionIds 
+export const FormPreviewModal = ({
+  isOpen,
+  onClose,
+  title,
+  description,
+  formId,
+  preloadedQuestions
 }: FormPreviewModalProps) => {
+  const { questions: fetchedQuestions, isLoading: isLoadingQuestions } = useFormQuestions(formId || '');
+  const [displayQuestions, setDisplayQuestions] = useState<Question[]>([]);
+
+  useEffect(() => {
+    if (preloadedQuestions && preloadedQuestions.length > 0) {
+      // Map Pregunta to Question
+      const mappedQuestions = preloadedQuestions.map(p => new Question(
+        p.id,
+        p.texto,
+        p.requerida,
+        p.tipoPreguntaId,
+        p.opciones?.map(o => new QuestionOption(o.id, o.texto, o.etiqueta || '', p.id))
+      ));
+      setDisplayQuestions(mappedQuestions);
+    } else if (formId) {
+      setDisplayQuestions(fetchedQuestions);
+    }
+  }, [preloadedQuestions, formId, fetchedQuestions]);
+
   if (!isOpen) return null;
+
+  const isLoading = formId && !preloadedQuestions && isLoadingQuestions;
 
   return (
     <div className="fixed inset-0 z-50 overflow-y-auto">
       <div className="flex min-h-screen items-center justify-center p-4">
         {/* Backdrop - Más transparente para ver el fondo */}
-        <div 
+        <div
           className="fixed inset-0 bg-black/10 backdrop-blur-[2px] transition-opacity"
           onClick={onClose}
         />
@@ -45,16 +72,20 @@ export const FormPreviewModal = ({
 
           {/* Content */}
           <div className="px-6 py-4 overflow-y-auto max-h-[calc(90vh-120px)]">
-            {questionIds.length === 0 ? (
+            {isLoading ? (
+              <div className="flex justify-center py-8">
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#8DD2FF]"></div>
+              </div>
+            ) : displayQuestions.length === 0 ? (
               <div className="text-center py-8 text-gray-500">
                 Este formulario no tiene preguntas aún
               </div>
             ) : (
               <div className="space-y-6">
-                {questionIds.map((questionId, index) => (
-                  <QuestionPreviewItem 
-                    key={questionId} 
-                    questionId={questionId}
+                {displayQuestions.map((question, index) => (
+                  <QuestionPreviewItem
+                    key={question.id}
+                    question={question}
                     index={index + 1}
                   />
                 ))}
@@ -77,21 +108,7 @@ export const FormPreviewModal = ({
   );
 };
 
-const QuestionPreviewItem = ({ questionId, index }: { questionId: string; index: number }) => {
-  const { question, isLoading } = useQuestionById(questionId);
-
-  if (isLoading) {
-    return (
-      <div className="bg-gray-50 rounded-lg p-4">
-        <div className="animate-pulse">
-          <div className="h-4 bg-gray-200 rounded w-3/4"></div>
-        </div>
-      </div>
-    );
-  }
-
-  if (!question) return null;
-
+const QuestionPreviewItem = ({ question, index }: { question: Question; index: number }) => {
   return (
     <div className="bg-gray-50 rounded-lg p-4">
       <div className="flex gap-3">
@@ -105,7 +122,7 @@ const QuestionPreviewItem = ({ questionId, index }: { questionId: string; index:
               <span className="text-red-500 ml-1">*</span>
             )}
           </p>
-          
+
           {/* Mostrar opciones si existen */}
           {question.opciones && question.opciones.length > 0 && (
             <div className="mt-3 space-y-2">

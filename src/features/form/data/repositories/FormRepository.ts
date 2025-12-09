@@ -14,7 +14,7 @@ export class FormRepository implements IFormRepository {
     const response = await this.apiClient.get<{ data: any[] }>(
       FORM_ENDPOINTS.getForms()
     );
-    
+
     return response.data.map((item) => Form.fromResponse(item));
   }
 
@@ -25,27 +25,27 @@ export class FormRepository implements IFormRepository {
     return Form.fromResponse(response.data);
   }
 
-async createForm(form: Form): Promise<Form> {
-  const requestBody = {
-    data: {  
-      type: 'formularios',
-      attributes: {
-        titulo: form.titulo,
-        descripcion: form.descripcion,
-        is_active: form.isActive,
+  async createForm(form: Form): Promise<Form> {
+    const requestBody = {
+      data: {
+        type: 'formularios',
+        attributes: {
+          titulo: form.titulo,
+          descripcion: form.descripcion,
+          is_active: form.isActive,
+        },
       },
-    },
-  };
+    };
 
 
-  const response = await this.apiClient.post<{ data: any }>(
-    FORM_ENDPOINTS.createForm(),
-    requestBody
-  );
-  
-  
-  return Form.fromResponse(response.data);
-}
+    const response = await this.apiClient.post<{ data: any }>(
+      FORM_ENDPOINTS.createForm(),
+      requestBody
+    );
+
+
+    return Form.fromResponse(response.data);
+  }
 
 
   async updateForm(id: string, form: Form): Promise<Form> {
@@ -106,5 +106,13 @@ async createForm(form: Form): Promise<Form> {
       FORM_ENDPOINTS.getQuestionCount(questionId)
     );
     return response.meta.formularios_count;
+  }
+
+  async getFormQuestions(id: string): Promise<import('../../../question/domain/entities/Question').Question[]> {
+    const response = await this.apiClient.get<{ data: any[] }>(
+      FORM_ENDPOINTS.getFormQuestions(id)
+    );
+    const { Question } = await import('../../../question/domain/entities/Question');
+    return response.data.map((item) => Question.fromResponse(item));
   }
 }

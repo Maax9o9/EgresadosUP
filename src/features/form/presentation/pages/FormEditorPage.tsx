@@ -10,9 +10,9 @@ import { FormPreviewModal } from '../components/FormPreviewModal';
 export const FormEditorPage = () => {
   const [showPreview, setShowPreview] = useState(false);
   const location = useLocation();
-  
+
   const formId = location.state?.formId;
-  
+
   const {
     title,
     description,
@@ -30,7 +30,7 @@ export const FormEditorPage = () => {
     deleteOption,
     saveSurvey,
     cancel,
-  } = useSurveyEditor({ 
+  } = useSurveyEditor({
     formId
   });
 
@@ -113,7 +113,7 @@ export const FormEditorPage = () => {
                   {questions.length === 1 ? 'pregunta' : 'preguntas'}
                 </span>
               </div>
-              
+
               <div className="flex items-center gap-3 w-full sm:w-auto order-1 sm:order-2">
                 <button
                   onClick={cancel}
@@ -138,7 +138,7 @@ export const FormEditorPage = () => {
         onClose={() => setShowPreview(false)}
         title={title}
         description={description}
-        questionIds={questions.map(q => q.id).filter(id => !id.startsWith('temp-'))}
+        preloadedQuestions={questions}
       />
     </>
   );

@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { 
-  CheckCircleIcon, 
-  XCircleIcon, 
+import {
+  CheckCircleIcon,
+  XCircleIcon,
   EyeIcon,
   CalendarIcon,
   ArrowLeftIcon
@@ -21,7 +21,7 @@ export const TemplateList = () => {
   const { updateForm } = useUpdateForm();
   const [selectedFormId, setSelectedFormId] = useState<string | null>(null);
   const [showPreview, setShowPreview] = useState(false);
-  
+
   const { form: selectedForm } = useFormById(selectedFormId);
 
   const handlePreview = (form: Form) => {
@@ -34,13 +34,13 @@ export const TemplateList = () => {
     setSelectedFormId(null);
   };
 
- const handleUseTemplate = (form: Form) => {
-  navigate(ROUTES.SURVEY_EDITOR, { 
-    state: { 
-      formId: form.id
-    } 
-  });
-};
+  const handleUseTemplate = (form: Form) => {
+    navigate(ROUTES.SURVEY_EDITOR, {
+      state: {
+        formId: form.id
+      }
+    });
+  };
 
   const toggleActivo = async (form: Form) => {
     try {
@@ -205,7 +205,7 @@ export const TemplateList = () => {
         onClose={handleClosePreview}
         title={selectedForm?.titulo || ''}
         description={selectedForm?.descripcion || ''}
-        questionIds={selectedForm?.preguntas?.map(p => p.id) || []}
+        formId={selectedForm?.id}
       />
     </>
   );

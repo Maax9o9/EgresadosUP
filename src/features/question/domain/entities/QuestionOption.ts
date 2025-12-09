@@ -1,8 +1,8 @@
 export class QuestionOption {
-    id: string;
-    textoOpcion: string;
-    etiqueta: string;
-    preguntaId?: string;
+  id: string;
+  textoOpcion: string;
+  etiqueta: string;
+  preguntaId?: string;
 
   constructor(
     id: string,
@@ -17,10 +17,13 @@ export class QuestionOption {
   }
 
   static fromResponse(data: any): QuestionOption {
+    // Handle both JSON:API format (with attributes) and flat format
+    const attributes = data.attributes || data;
+
     return new QuestionOption(
       data.id,
-      data.attributes['texto-opcion'] || data.attributes.texto_opcion,
-      data.attributes.etiqueta,
+      attributes['texto-opcion'] || attributes.texto_opcion || attributes.textoOpcion,
+      attributes.etiqueta,
       data.relationships?.pregunta?.data?.id
     );
   }
