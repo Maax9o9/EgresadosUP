@@ -73,7 +73,7 @@ const CatalogFilter: FunctionComponent<CatalogFilterProps> = ({
   return (
     <div className="w-full bg-white border border-gray-200 rounded-xl shadow-sm relavite">
       {/* Header con estadísticas */}
-      <div className="bg-gradient-to-r from-[#8DD2FF] to-[#6BB8E6] px-6 py-4">
+      <div className="bg-gradient-to-r from-[#8DD2FF] to-[#6BB8E6] px-6 py-4 rounded-t-xl">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-2">
@@ -131,7 +131,7 @@ const CatalogFilter: FunctionComponent<CatalogFilterProps> = ({
             <select 
               value={selectedCategory}
               onChange={handleCategoryChange}
-              className="w-full bg-white border-2 border-gray-300 text-gray-700 rounded-lg px-3 h-10 font-medium cursor-pointer hover:border-[#8DD2FF] focus:border-[#8DD2FF] focus:ring-2 focus:ring-[#8DD2FF]/20 transition-all outline-none"
+              className="w-full bg-white border-2 border-gray-300 text-gray-700 rounded-lg px-3 h-10 font-medium cursor-pointer hover:border-[#8DD2FF] focus:border-[#8DD2FF] focus:ring-2 focus:ring-[#8DD2FF]/20 transition-all outline-none text-sm"
             >
               <option value="">Todas las categorías</option>
               <option value="satisfaccion">📊 Satisfacción</option>
@@ -151,7 +151,7 @@ const CatalogFilter: FunctionComponent<CatalogFilterProps> = ({
               <select 
                 value={sortBy}
                 onChange={handleSortChange}
-                className="w-full bg-white border-2 border-gray-300 text-gray-700 rounded-lg pl-10 pr-3 h-10 font-medium cursor-pointer hover:border-[#8DD2FF] focus:border-[#8DD2FF] focus:ring-2 focus:ring-[#8DD2FF]/20 transition-all outline-none appearance-none"
+                className="w-full bg-white border-2 border-gray-300 text-gray-700 rounded-lg pl-10 pr-3 h-10 font-medium cursor-pointer hover:border-[#8DD2FF] focus:border-[#8DD2FF] focus:ring-2 focus:ring-[#8DD2FF]/20 transition-all outline-none appearance-none text-sm"
               >
                 <option value="newest">Más recientes</option>
                 <option value="oldest">Más antiguas</option>

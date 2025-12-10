@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useFormById } from './useFormById';
+import { useFormQuestions } from './useFormQuestions';
 import { useUpdateForm } from './useUpdateForm';
 import { useAddQuestionToForm } from './useAddQuestionToForm';
 import { useRemoveQuestionFromForm } from './useRemoveQuestionFromForm';
@@ -22,6 +23,7 @@ export const useSurveyEditor = ({
 }: UseSurveyEditorProps) => {
   const navigate = useNavigate();
   const { form, isLoading: isLoadingForm } = useFormById(formId || null);
+  const { questions: fetchedQuestions, isLoading: isLoadingQuestions } = useFormQuestions(formId || '');
   const { updateForm } = useUpdateForm();
   const { addQuestionToForm } = useAddQuestionToForm();
   const { removeQuestionFromForm } = useRemoveQuestionFromForm();
@@ -38,22 +40,27 @@ export const useSurveyEditor = ({
     if (form && !isFormLoaded) {
       setTitle(form.titulo);
       setDescription(form.descripcion);
-      
-      if (form.preguntas && form.preguntas.length > 0 && questionTypes.length > 0) {
-        const preguntasConvertidas: Pregunta[] = form.preguntas.map(fq => ({
-          id: fq.id,
-          texto: '',
-          tipoPreguntaId: questionTypes[0]?.id || '',
-          requerida: false,
-          opciones: [],
-          orden: fq.orden
-        }));
-        setQuestions(preguntasConvertidas);
-      }
-      
       setIsFormLoaded(true);
     }
-  }, [form, questionTypes, isFormLoaded]);
+  }, [form, isFormLoaded]);
+
+  useEffect(() => {
+    if (formId && fetchedQuestions.length > 0 && questionTypes.length > 0) {
+      const preguntasConvertidas: Pregunta[] = fetchedQuestions.map(q => ({
+        id: q.id,
+        texto: q.textoPregunta,
+        tipoPreguntaId: q.tipoPreguntaId,
+        requerida: q.esObligatoria,
+        opciones: q.opciones?.map(o => ({
+          id: o.id,
+          texto: o.textoOpcion,
+          etiqueta: o.etiqueta || ''
+        })) || [],
+        orden: 0
+      }));
+      setQuestions(preguntasConvertidas);
+    }
+  }, [fetchedQuestions, questionTypes, formId]);
 
   const addQuestion = () => {
     if (questionTypes.length === 0) {
@@ -262,7 +269,7 @@ export const useSurveyEditor = ({
     description,
     questions,
     questionTypes,
-    isLoading: isLoadingForm || isLoadingTypes,
+    isLoading: isLoadingForm || isLoadingTypes || isLoadingQuestions,
     setTitle,
     setDescription,
     addQuestion,

@@ -6,9 +6,13 @@ import { SurveyHeaderCard } from '../components/SurveyHeaderCard';
 import { QuestionCard } from '../components/edit-survey/QuestionCard';
 import { AddQuestionButton } from '../components/edit-survey/AddQuestionButton';
 import { FormPreviewModal } from '../components/FormPreviewModal';
+import { QuestionDeleteModal } from '../components/QuestionDeleteModal';
+import type { Pregunta } from '@/shared/types';
 
 export const FormEditorPage = () => {
   const [showPreview, setShowPreview] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [questionToDelete, setQuestionToDelete] = useState<Pregunta | null>(null);
   const location = useLocation();
 
   const formId = location.state?.formId;
@@ -33,6 +37,23 @@ export const FormEditorPage = () => {
   } = useSurveyEditor({
     formId
   });
+
+  const handleOpenDeleteModal = (question: Pregunta) => {
+    setQuestionToDelete(question);
+    setShowDeleteModal(true);
+  };
+
+  const handleCloseDeleteModal = () => {
+    setShowDeleteModal(false);
+    setQuestionToDelete(null);
+  };
+
+  const handleConfirmDelete = async () => {
+    if (questionToDelete) {
+      await deleteQuestion(questionToDelete.id);
+      handleCloseDeleteModal();
+    }
+  };
 
   if (isLoading) {
     return (
@@ -88,7 +109,7 @@ export const FormEditorPage = () => {
                 questionTypes={questionTypes}
                 onQuestionChange={(id: string, text: string) => updateQuestion(id, { texto: text })}
                 onQuestionTypeChange={changeQuestionType}
-                onQuestionDelete={deleteQuestion}
+                onQuestionDelete={() => handleOpenDeleteModal(question)}
                 onRequiredToggle={(id: string, required: boolean) => updateQuestion(id, { requerida: required })}
                 onOptionAdd={addOption}
                 onOptionChange={updateOption}
@@ -140,6 +161,15 @@ export const FormEditorPage = () => {
         description={description}
         preloadedQuestions={questions}
       />
+
+      {questionToDelete && (
+        <QuestionDeleteModal
+          isOpen={showDeleteModal}
+          onClose={handleCloseDeleteModal}
+          onConfirm={handleConfirmDelete}
+          questionText={questionToDelete.texto}
+        />
+      )}
     </>
   );
 };

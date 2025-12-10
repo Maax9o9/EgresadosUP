@@ -3,147 +3,102 @@ import { Send, Trash2, Pencil, Eye, MoreVertical, X } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react';
 import { ROUTES } from "@/shared/constants/route";
-
-interface Survey {
-  id: string;
-  title: string;
-  description: string;
-  createdAt: string;
-  questions: number;
-  category: string;
-}
+import { useFormList } from "../../hooks/useFormList";
+import { FormPreviewModal } from "../FormPreviewModal";
+import { FormEditModal } from "../FormEditModal";
+import { FormDeleteModal } from "../FormDeleteModal";
+import { useDeleteForm } from "../../hooks/useDeleteForm";
+import { alertService } from "@/shared/services/alert.service";
 
 // Props actualizadas para recibir datos del filtro mejorado
 interface CatalogTableProps {
   searchTerm?: string;
   selectedCategory?: string;
-  selectedDate?: string | null; // Cambiado de dateRange a selectedDate
-  sortBy?: string; // Nueva prop para ordenamiento
+  selectedDate?: string | null;
+  sortBy?: string;
   onSelectionChange?: (count: number) => void;
 }
 
-const mockSurveys: Survey[] = [
-  {
-    id: "1",
-    title: "Encuesta de Satisfacción 2025",
-    description: "Evaluación de satisfacción de empleados para el primer trimestre del año",
-    createdAt: "2025-10-21",
-    questions: 30,
-    category: "satisfaccion"
-  },
-  {
-    id: "2",
-    title: "Clima Laboral - Departamento TI",
-    description: "Medición del ambiente de trabajo y relaciones interpersonales en el equipo de tecnología",
-    createdAt: "2025-10-15",
-    questions: 25,
-    category: "clima"
-  },
-  {
-    id: "3",
-    title: "Evaluación de Desempeño Q3",
-    description: "Evaluación trimestral de objetivos y competencias del tercer trimestre",
-    createdAt: "2025-10-10",
-    questions: 20,
-    category: "evaluacion"
-  },
-  {
-    id: "4",
-    title: "Capacitación en Liderazgo",
-    description: "Encuesta de retroalimentación sobre el programa de capacitación en liderazgo organizacional",
-    createdAt: "2025-11-05",
-    questions: 15,
-    category: "capacitacion"
-  },
-  {
-    id: "5",
-    title: "Satisfacción con Beneficios",
-    description: "Evaluación de la percepción de los empleados sobre el paquete de beneficios corporativos",
-    createdAt: "2025-11-08",
-    questions: 18,
-    category: "satisfaccion"
-  },
-  {
-    id: "6",
-    title: "Clima Organizacional General",
-    description: "Encuesta anual de clima organizacional para todos los departamentos de la empresa",
-    createdAt: "2025-09-20",
-    questions: 40,
-    category: "clima"
-  },
-  {
-    id: "7",
-    title: "Evaluación 360° Gerentes",
-    description: "Evaluación de competencias gerenciales desde múltiples perspectivas",
-    createdAt: "2025-11-01",
-    questions: 35,
-    category: "evaluacion"
-  },
-  {
-    id: "8",
-    title: "Programa de Onboarding",
-    description: "Retroalimentación de nuevos empleados sobre su experiencia durante el proceso de integración",
-    createdAt: "2025-10-28",
-    questions: 12,
-    category: "capacitacion"
-  },
-];
-
-const CatalogTable: FunctionComponent<CatalogTableProps> = ({ 
+const CatalogTable: FunctionComponent<CatalogTableProps> = ({
   searchTerm = "",
   selectedCategory = "",
-  selectedDate = null, // Actualizado
-  sortBy = "newest", // Nueva prop con valor por defecto
+  selectedDate = null,
+  sortBy = "newest",
   onSelectionChange
 }) => {
   const navigate = useNavigate();
+  const { forms, isLoading } = useFormList();
+  const { deleteForm, isDeleting } = useDeleteForm();
   const [selectedSurvey, setSelectedSurvey] = useState<string | null>(null);
+  const [showPreview, setShowPreview] = useState(false);
+  const [previewFormId, setPreviewFormId] = useState<string | null>(null);
+  const [showEdit, setShowEdit] = useState(false);
+  const [editFormId, setEditFormId] = useState<string | null>(null);
+  const [showDelete, setShowDelete] = useState(false);
+  const [deleteFormId, setDeleteFormId] = useState<string | null>(null);
 
-  // Filtrar y ordenar encuestas
+  // Convertir forms a formato esperado por la tabla
+  const surveys = useMemo(() => {
+    return forms.map(form => ({
+      id: form.id,
+      title: form.titulo,
+      description: form.descripcion,
+      createdAt: form.fechaCreacion || new Date().toISOString(),
+      questions: 0, // De momento 0 como solicitaste
+      category: "" // No hay categoría en el schema
+    }));
+  }, [forms]);
+
   const filteredSurveys = useMemo(() => {
-    // Primero filtrar
-    let filtered = mockSurveys.filter(survey => {
-      const matchesSearch = searchTerm === "" || 
-        survey.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        survey.description.toLowerCase().includes(searchTerm.toLowerCase());
+    let filtered = [...surveys];
 
-      const matchesCategory = selectedCategory === "" || 
-        survey.category === selectedCategory;
-
-      // Filtro por fecha exacta (no rango)
-      const matchesDate = !selectedDate || 
-        survey.createdAt === selectedDate;
-
-      return matchesSearch && matchesCategory && matchesDate;
-    });
-
-    // Luego ordenar según el criterio seleccionado
-    switch (sortBy) {
-      case "oldest":
-        filtered.sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime());
-        break;
-      case "newest":
-        filtered.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
-        break;
-      case "title-asc":
-        filtered.sort((a, b) => a.title.localeCompare(b.title));
-        break;
-      case "title-desc":
-        filtered.sort((a, b) => b.title.localeCompare(a.title));
-        break;
-      case "questions-asc":
-        filtered.sort((a, b) => a.questions - b.questions);
-        break;
-      case "questions-desc":
-        filtered.sort((a, b) => b.questions - a.questions);
-        break;
-      default:
-        // Por defecto más recientes
-        filtered.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+    // Filtrar por búsqueda
+    if (searchTerm) {
+      const search = searchTerm.toLowerCase();
+      filtered = filtered.filter(
+        (survey) =>
+          survey.title.toLowerCase().includes(search) ||
+          survey.description.toLowerCase().includes(search)
+      );
     }
 
+    // Filtrar por categoría (mantener por compatibilidad aunque no se use)
+    if (selectedCategory) {
+      filtered = filtered.filter(
+        (survey) => survey.category === selectedCategory
+      );
+    }
+
+    // Filtrar por fecha
+    if (selectedDate) {
+      filtered = filtered.filter((survey) => {
+        const surveyDate = new Date(survey.createdAt).toDateString();
+        const filterDate = new Date(selectedDate).toDateString();
+        return surveyDate === filterDate;
+      });
+    }
+
+    // Ordenar
+    filtered.sort((a, b) => {
+      switch (sortBy) {
+        case "oldest":
+          return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
+        case "title-asc":
+          return a.title.localeCompare(b.title);
+        case "title-desc":
+          return b.title.localeCompare(a.title);
+        case "questions-asc":
+          return a.questions - b.questions;
+        case "questions-desc":
+          return b.questions - a.questions;
+        case "newest":
+        default:
+          return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+      }
+    });
+
     return filtered;
-  }, [searchTerm, selectedCategory, selectedDate, sortBy]); // Dependencias actualizadas
+  }, [surveys, searchTerm, selectedCategory, selectedDate, sortBy]);
 
   const handleSelectSurvey = (surveyId: string) => {
     setSelectedSurvey(surveyId);
@@ -172,22 +127,61 @@ const CatalogTable: FunctionComponent<CatalogTableProps> = ({
   };
 
   const handleEdit = (surveyId: string) => {
-    console.log("Editar encuesta:", surveyId);
+    setEditFormId(surveyId);
+    setShowEdit(true);
+  };
+
+  const handleCloseEdit = () => {
+    setShowEdit(false);
+    setEditFormId(null);
   };
 
   const handleDelete = (surveyId: string) => {
-    if (confirm("¿Estás seguro de que deseas eliminar esta encuesta?")) {
-      console.log("Eliminar encuesta:", surveyId);
+    setDeleteFormId(surveyId);
+    setShowDelete(true);
+  };
+
+  const handleCloseDelete = () => {
+    setShowDelete(false);
+    setDeleteFormId(null);
+  };
+
+  const handleConfirmDelete = async () => {
+    if (!deleteFormId) return;
+    try {
+      await deleteForm(deleteFormId);
+      alertService.success('Formulario eliminado');
+    } catch (error: any) {
+      alertService.error(error?.message || 'Error al eliminar el formulario');
+    } finally {
+      handleCloseDelete();
     }
   };
 
   const handlePreview = (surveyId: string) => {
-    console.log("Vista previa:", surveyId);
+    setPreviewFormId(surveyId);
+    setShowPreview(true);
+  };
+
+  const handleClosePreview = () => {
+    setShowPreview(false);
+    setPreviewFormId(null);
   };
 
   const handleDuplicate = (surveyId: string) => {
     console.log("Duplicar encuesta:", surveyId);
   };
+
+  if (isLoading) {
+    return (
+      <div className="w-full bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm p-12 text-center">
+        <div className="flex flex-col items-center justify-center gap-4">
+          <div className="w-16 h-16 border-4 border-[#8DD2FF] border-t-transparent rounded-full animate-spin"></div>
+          <p className="text-sm text-gray-500">Cargando encuestas...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <>
@@ -212,9 +206,9 @@ const CatalogTable: FunctionComponent<CatalogTableProps> = ({
       ) : (
         <div className="w-full bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm">
           <div className="overflow-x-auto">
-            <div className="min-w-[1200px]">
+            <div className="min-w-[1150px]">
               {/* Encabezado */}
-              <div className="grid grid-cols-[60px_1.5fr_2.5fr_140px_110px_100px] gap-4 bg-gradient-to-r from-gray-50 to-gray-100 text-gray-700 font-semibold py-4 px-6 text-xs uppercase tracking-wider items-center border-b border-gray-200">
+              <div className="grid grid-cols-[60px_1.5fr_2.5fr_120px_110px_80px] gap-4 bg-gradient-to-r from-gray-50 to-gray-100 text-gray-700 font-semibold py-4 px-6 text-xs uppercase tracking-wider items-center border-b border-gray-200">
                 <div className="text-center">
                   <span className="text-[10px] text-gray-500">Seleccionar</span>
                 </div>
@@ -229,7 +223,7 @@ const CatalogTable: FunctionComponent<CatalogTableProps> = ({
               {filteredSurveys.map((survey) => (
                 <div
                   key={survey.id}
-                  className={`grid grid-cols-[60px_1.5fr_2.5fr_140px_110px_100px] gap-4 items-center border-b border-gray-100 py-4 px-6 text-sm transition-all duration-200 ${
+                  className={`grid grid-cols-[60px_1.5fr_2.5fr_120px_110px_80px] gap-4 items-center border-b border-gray-100 py-4 px-6 text-sm transition-all duration-200 ${
                     selectedSurvey === survey.id
                       ? "bg-[#8DD2FF]/10 border-l-4 border-l-[#8DD2FF]"
                       : "hover:bg-gray-50"
@@ -361,6 +355,40 @@ const CatalogTable: FunctionComponent<CatalogTableProps> = ({
             <span>Enviar encuesta</span>
           </button>
         </div>
+      )}
+
+      {/* Modal de vista previa */}
+      {previewFormId && (
+        <FormPreviewModal
+          isOpen={showPreview}
+          onClose={handleClosePreview}
+          title={filteredSurveys.find(s => s.id === previewFormId)?.title || "Vista previa"}
+          description={filteredSurveys.find(s => s.id === previewFormId)?.description || ""}
+          formId={previewFormId}
+        />
+      )}
+
+      {/* Modal de edición */}
+      {editFormId && (
+        <FormEditModal
+          isOpen={showEdit}
+          onClose={handleCloseEdit}
+          title={filteredSurveys.find(s => s.id === editFormId)?.title || "Editar preguntas"}
+          description={filteredSurveys.find(s => s.id === editFormId)?.description || ""}
+          formId={editFormId}
+        />
+      )}
+
+      {/* Modal de eliminación */}
+      {deleteFormId && (
+        <FormDeleteModal
+          isOpen={showDelete}
+          onClose={handleCloseDelete}
+          onConfirm={handleConfirmDelete}
+          isSubmitting={isDeleting}
+          title="Eliminar formulario"
+          description="Esta acción no se puede deshacer"
+        />
       )}
     </>
   );

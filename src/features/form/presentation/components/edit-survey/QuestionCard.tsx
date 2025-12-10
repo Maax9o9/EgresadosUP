@@ -11,7 +11,7 @@ interface QuestionCardProps {
   questionTypes: Array<{ id: string; nombre: string }>;
   onQuestionChange: (id: string, text: string) => void;
   onQuestionTypeChange: (id: string, newTypeId: string) => void;
-  onQuestionDelete: (id: string) => void;
+  onQuestionDelete: () => void;
   onRequiredToggle: (id: string, required: boolean) => void;
   onOptionAdd: (questionId: string) => void;
   onOptionChange: (questionId: string, optionId: string, text: string) => void;
@@ -69,7 +69,7 @@ export const QuestionCard = ({
             onChange={(enabled) => onRequiredToggle(question.id, enabled)}
           />
           <button
-            onClick={() => onQuestionDelete(question.id)}
+            onClick={onQuestionDelete}
             className="flex items-center justify-center sm:justify-start gap-2 px-4 py-2 text-sm text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors w-full sm:w-auto"
           >
             <TrashIcon className="h-4 w-4" />

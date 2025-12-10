@@ -9,8 +9,8 @@ export default function SurveysCatalogPage() {
   const [sortBy, setSortBy] = useState("newest");
 
   return (
-    <div className="min-h-screen bg-gray-50 pb-8">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-5">
+    <div className="max-w-7xl mx-auto">
+      <div className="space-y-6">
         <CatalogFilter 
           selectedCount={selectedCount}
           totalSurveys={8}
