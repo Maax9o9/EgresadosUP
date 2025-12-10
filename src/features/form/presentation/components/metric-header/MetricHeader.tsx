@@ -12,7 +12,7 @@ const MetricHeader = () => {
           <h1 className="text-2xl font-bold text-black">Encuesta 2025</h1>
           <p className="text-gray-400 font-semibold mt-2">Descripción</p>
         </div>
-        <div>
+        <div className="print-hidden">
           <button onClick={printAllMetrics} className="bg-blue-600 text-white text-sm px-3 py-1 rounded-md hover:bg-blue-700">Imprimir métricas</button>
         </div>
       </div>

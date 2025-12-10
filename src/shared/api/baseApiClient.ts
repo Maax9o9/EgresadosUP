@@ -21,13 +21,14 @@ export class BaseApiClient {
     });
 
     if (!response.ok) {
-      let errorData;
+      let errorMessage = `HTTP error! status: ${response.status}`;
       try {
-        errorData = await response.json();
-        console.error(' Error response:', errorData);
+        const errorData = await response.json();
+        console.error('Error response:', errorData);
+        errorMessage = errorData.message || errorMessage;
       } catch {
-        errorData = await response.text();
-        console.error(' Error text:', errorData);
+        // Si no se puede parsear como JSON, usar el mensaje por defecto
+        console.error('Error status:', response.status, response.statusText);
       }
       
       if (response.status === 404) {
@@ -36,7 +37,7 @@ export class BaseApiClient {
       if (response.status === 409) {
         throw new Error('Resource conflict');
       }
-      throw new Error(`HTTP error! status: ${response.status}`);
+      throw new Error(errorMessage);
     }
 
     if (response.status === 204) {
