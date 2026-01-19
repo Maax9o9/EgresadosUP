@@ -20,6 +20,9 @@ import { SendSurveyPage } from "@/features/form/presentation/pages/SendSurveyPag
 // Mail
 import { CreateEmailTemplatePage } from "@/features/mail/presentation/pages/CreateEmailTemplatePage";
 
+// Orgullo UP
+import OrgulloUpPage from "@/features/orgulloUP/presentation/pages/orgulloUpPage";
+
 // ============================================
 // ROUTER CONFIGURATION
 // ============================================
@@ -66,5 +69,9 @@ export const router = createBrowserRouter([
         element: <CreateEmailTemplatePage />,
       },
     ],
+  },
+  {
+    path: ROUTES.ORGULLO_UP,
+    element: <OrgulloUpPage />,
   },
 ]);

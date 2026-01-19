@@ -14,4 +14,6 @@ export const ROUTES = {
   SURVEY_METRICS: "/surveys/metrics",
 
   CREATE_MAIL_TEMPLATE: "/mail/template/create",
+
+  ORGULLO_UP: "/orgullo-up",
 } as const
